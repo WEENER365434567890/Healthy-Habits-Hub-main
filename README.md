@@ -1,5 +1,3 @@
-# <Healthy-Habits-Hub>
-  
  ## **Healthy Habits Hub**
 
 Healthy Habits Hub is a web application that aims to address chronic health and disease burden at the root cause by helping users improve their meal planning and increase their overall activity levels.  Obesity and it's subsequent comorbidities are linked with over 1.5 trillion dollars of healthcare costs annualy.
