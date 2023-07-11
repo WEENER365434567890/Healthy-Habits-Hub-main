@@ -12,7 +12,6 @@ var activityBtn = document.getElementById("activityNxBtn")
 var key = "876e9a6c95694284b7cb6107cd846ea5";
 
 
-
 //restriction radio button click
 function restrictionDisplay() {
   if (document.getElementById("yesR").checked) {
@@ -89,13 +88,13 @@ function getCals(){
   var userInfo = JSON.parse(localStorage.getItem("localUser"))
   var dietCal = userInfo.dietCal
   var maxMealCal = (Math.round(dietCal/mealVal.value))
-
+  
   return maxMealCal
 }
 
 function randomMeal(){
   var random = Math.floor(Math.random() * 10)+1
-
+ 
   return random;
 }
 
@@ -113,8 +112,8 @@ function renderMeals(data) {
       var div = document.createElement("div");
       div.classList.add("w-full", 'lg:w-1/3', "h-48", "shadow-lg", "flex", "p-4")
       suggestionBox.appendChild(div);
-
-
+  
+  
       // Create two div boxes for styling the images and text seperately
       var divImg = document.createElement("div");
       divImg.classList.add("w-1/3", "h-48",)
@@ -122,24 +121,24 @@ function renderMeals(data) {
       var divContent = document.createElement("div");
       divContent.classList.add("w-2/3", "h-48",)
       div.appendChild(divContent)
-
-
-
+  
+  
+      
       //create specific elements for img div and content div respectivly
       var img = document.createElement("img");
       var h1 = document.createElement("h1");
       var p = document.createElement("p");
-
+  
       // assign pieces of content values
       h1.textContent = recipe.title;
       p.textContent = "Calories: " + data.results[i].nutrition.nutrients[0].amount + " kcal"
       img.src = recipe.image
-
-
+  
+      
       img.classList.add("w-36", "h-36", "rounded-lg")
       h1.classList.add("pl-4","pt-4", "text-lg", "font-bold", "header-font")
       p.classList.add("pl-4","pt-4", "body-font")
-
+  
       divImg.appendChild(img);
       divContent.appendChild(h1);
       divContent.appendChild(p);
@@ -151,8 +150,8 @@ function renderMeals(data) {
       var div = document.createElement("div");
       div.classList.add("w-full", "h-48", "shadow-lg", "flex", "p-4")
       suggestionBox.appendChild(div);
-
-
+  
+  
       // Create two div boxes for styling the images and text seperately
       var divImg = document.createElement("div");
       divImg.classList.add("w-1/3", "h-48",)
@@ -160,24 +159,24 @@ function renderMeals(data) {
       var divContent = document.createElement("div");
       divContent.classList.add("w-2/3", "h-48",)
       div.appendChild(divContent)
-
-
-
+  
+  
+      
       //create specific elements for img div and content div respectivly
       var img = document.createElement("img");
       var h1 = document.createElement("h1");
       var p = document.createElement("p");
-
+  
       // assign pieces of content values
       h1.textContent = recipe.title;
       p.textContent = "Calories: " + data.results[i].nutrition.nutrients[0].amount + " kcal"
       img.src = recipe.image
-
-
+  
+      
       img.classList.add("w-36", "h-36", "rounded-lg")
       h1.classList.add("pl-4","pt-4", "text-lg", "font-bold", "header-font")
       p.classList.add("pl-4","pt-4", "body-font")
-
+  
       divImg.appendChild(img);
       divContent.appendChild(h1);
       divContent.appendChild(p);
@@ -188,7 +187,7 @@ function renderMeals(data) {
 
 function mealSearch(getAllergies, getDiets, getCals, randomMeal) {
   $("#meal-suggestions").empty();
-
+  
 
   var queryURL =
     "https://api.spoonacular.com/recipes/complexSearch?apiKey=" + key + "&intolerances=" + getAllergies + "&diet=" + getDiets + "&maxCalories=" + getCals +"&offset=" + randomMeal;
@@ -222,3 +221,4 @@ function displayModalMeal() {
 
 document.getElementById('modalOkButton').onclick = function(){location.href = "userForm.html"}
 mealBtn.addEventListener("click", submitMealHandler);
+

@@ -153,7 +153,7 @@ goalButtons.forEach(item => {
     item.addEventListener('click', addGoalValue);
 })
 userFormEl.addEventListener('submit', updateUserObject);
-
+ 
 modalCloseButton.addEventListener('click', function() {
     modalOverlay.classList.toggle('flex')
     modalOverlay.classList.toggle('hidden')

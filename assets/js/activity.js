@@ -66,7 +66,7 @@ function exDisplay(e) {
     document.getElementById("ex-choice").focus();
   } else document.getElementById("suggestions").style.display = "flex";
     nextButton.style.display = "flex";
-
+  
   exSearch();
 }
 
@@ -85,7 +85,7 @@ function exSearch() {
       return response.json();
     })
     .then(function (data) {
-
+       
       let counter = 1;
       for (let i = 0; i < 3; i++) {
         if ((data.length === 0)) {
@@ -99,7 +99,7 @@ function exSearch() {
   
           card1.append(displayMessage);
         }
-
+  
 
         var exercise1 = document.createElement("p");
         exercise1.setAttribute(
