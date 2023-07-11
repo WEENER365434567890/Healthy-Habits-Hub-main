@@ -1,173 +1,162 @@
-const modalOverlay = document.getElementById('modalOverlay');
-const modalCloseButton = document.getElementById('modalCloseButton');
-const modalContinueButton = document.getElementById('modalContinueButton');
-const userFormSubmit = document.getElementById('user-form-button');
-const userFormEl = document.getElementById('user-form');
-const nameInput = document.getElementById('name');
-const ageInput = document.getElementById('age');
-const heightInput = document.getElementById('height');
-const weightInput = document.getElementById('weight');
-const genderInput = document.getElementById('gender');
-const goalButtons = document.getElementsByName('fit_goal');
-const goalValEl = document.getElementById('goal-val');
-
+var modalOverlay = document.getElementById('modalOverlay');
+var modalCloseButton = document.getElementById('modalCloseButton');
+var modalContinueButton = document.getElementById('modalContinueButton');
+var userFormSubmit = document.getElementById('user-form-button');
+let userFormEl = document.getElementById('user-form');
+let nameInput = document.getElementById('name');
+let ageInput = document.getElementById('age');
+let heightInput = document.getElementById('height');
+let weightInput = document.getElementById('weight');
+let genderInput = document.getElementById('gender');
+let goalButtons = document.getElementsByName('fit_goal'); // is an array
+let goalValEl = document.getElementById('goal-val');
+let goalVal = document.createElement('input');
 const kilogramPerPound = 0.453592;
 const centimeterPerFoot = 30.48;
 
-const userData = {
-  name: "",
-  gender: "",
-  weight: 0,
-  height: 0,
-  age: 0,
-  goal: ["", 0],
-  BMR: 0,
-  dietCal: 0,
-  exerciseCal: 300,
-  deficit: 0,
-  goalTime: 0,
-};
+
 
 function addGoalValue() {
-  for (let i = 0; i < goalButtons.length; i++) {
-    if (goalButtons[i].checked && goalButtons[i].value !== 'maintain') {
-      const goalVal = document.createElement('input');
-      goalVal.setAttribute('placeholder', 'How many kg?');
-      goalVal.setAttribute('type', 'number');
-      goalVal.classList.add('input-border', 'rounded');
-      goalValEl.innerHTML = '';
-      goalValEl.appendChild(goalVal);
-    } else {
-      goalValEl.innerHTML = '';
+    for (let i = 0; i < goalButtons.length; i++) {
+        if (goalButtons[i].checked && (goalButtons[i].value !== 'maintain')) {
+            goalVal.setAttribute('placeholder', 'How many kg?');
+            goalVal.setAttribute('type', 'number');
+            goalValEl.append(goalVal);
+            goalVal.classList.remove('hidden');
+            goalVal.classList.add('input-border', 'rounded');
+            goalVal.value = '';
+        } else if (goalButtons[i].checked && (goalButtons[i].value === 'maintain')) {
+            goalVal.value = 0;
+            goalVal.classList.add('hidden');
+        }
     }
-  }
 }
 
-function updateUserObject(e) {
-  e.preventDefault();
-  displayModal();
+function updateUserObject(e){
+    e.preventDefault();
+    displayModal();
+    localStorage.clear()
+    let userGoal = getUserGoal();
 
-  localStorage.clear();
+    userData.name = nameInput.value.trim();
+    userData.gender = genderInput.value;
+    userData.weight = weightInput.value;
+    userData.height = heightInput.value;
+    userData.age = ageInput.value;
+    userData.goal[0] = userGoal;
+    userData.goal[1] = parseInt(goalVal.value);
 
-  const userGoal = getUserGoal();
+    let userBMRInfo = getBMR();
+    let dietCal = getDietCal(userBMRInfo);
+    let exerciseCal = 300;
+    let deficit = 0;
 
-  userData.name = nameInput.value.trim();
-  userData.gender = genderInput.value;
-  userData.weight = weightInput.value;
-  userData.height = heightInput.value;
-  userData.age = ageInput.value;
-  userData.goal[0] = userGoal;
-  userData.goal[1] = parseInt(goalValEl.firstChild.value);
+    if (userData.goal[0] === 'lose') {
+        deficit = (userBMRInfo - dietCal) + exerciseCal;
+    } else if (userData.goal[0] === 'gain') {
+        deficit = (userBMRInfo - dietCal) - exerciseCal;
+    }
 
-  const userBMRInfo = getBMR();
-  const dietCal = getDietCal(userBMRInfo);
-  let deficit = 0;
+    let goalTime = calcGoalTime(deficit);
 
-  if (userData.goal[0] === 'lose') {
-    deficit = userBMRInfo - dietCal + userData.exerciseCal;
-  } else if (userData.goal[0] === 'gain') {
-    deficit = userBMRInfo - dietCal - userData.exerciseCal;
-  }
+    userData.BMR = userBMRInfo;
+    userData.dietCal = dietCal;
+    userData.exerciseCal = exerciseCal;
+    userData.deficit = deficit;
+    userData.goalTime = goalTime;
 
-  const goalTime = calcGoalTime(deficit);
+    commitToStorage();
 
-  userData.BMR = userBMRInfo;
-  userData.dietCal = dietCal;
-  userData.deficit = deficit;
-  userData.goalTime = goalTime;
-
-  commitToStorage();
-
-  nameInput.value = '';
-  genderInput.value = '';
-  weightInput.value = '';
-  heightInput.value = '';
-  ageInput.value = '';
-  goalValEl.firstChild.value = '';
-  for (let i = 0; i < goalButtons.length; i++) {
-    goalButtons[i].checked = false;
-  }
+    // clears input fields after data has been stored in user object on submit
+    nameInput.value = '';
+    genderInput.value = '';
+    weightInput.value = '';
+    heightInput.value = '';
+    ageInput.value = '';
+    goalVal.classList.add('hidden');
+    for (let i = 0; i < goalButtons.length; i++) {
+        goalButtons[i].checked = false;
+    }
 }
 
 function displayModal() {
-  modalOverlay.classList.toggle('hidden');
-  modalOverlay.classList.toggle('flex');
-}
+    modalOverlay.classList.toggle('hidden');
+    modalOverlay.classList.toggle('flex');
+};
 
 function getUserGoal() {
-  for (let i = 0; i < goalButtons.length; i++) {
-    if (goalButtons[i].checked) {
-      return goalButtons[i].value;
+    for (let i = 0; i < goalButtons.length; i++) {
+        if (goalButtons[i].checked) {
+            return goalButtons[i].value;
+        }
     }
-  }
 }
 
+// Uses the Revised Harris-Benedict Equation (is an estimate)
 function getBMR() {
-  let BMR;
-  if (userData.gender === 'male') {
-    BMR = Math.round(
-      88.362 +
-        13.397 * userData.weight +
-        4.799 * userData.height -
-        5.677 * userData.age
-    );
-  } else {
-    BMR = Math.round(
-      447.593 +
-        9.247 * userData.weight +
-        3.098 * userData.height -
-        4.33 * userData.age
-    );
-  }
-  return BMR;
+    let maleBMR = Math.round(88.362 + (13.397 * (userData.weight)) + (4.799 * (userData.height)) - (5.677 * userData.age));
+    let femaleBMR = Math.round(447.593 + (9.247 * (userData.weight)) + (3.098 * (userData.height)) - (4.330 * userData.age));
+
+    if (userData.gender === 'male') {
+        return maleBMR;
+    } else {
+        return femaleBMR;
+    }
 }
 
+// converts pounds to kilograms
 function toKilograms(pounds) {
-  return pounds * kilogramPerPound;
+    let kilograms = pounds * kilogramPerPound;
+    return kilograms;
 }
 
+// converts feet to centimeters
 function toCentimeters(feet) {
-  return feet * centimeterPerFoot;
+    let centimeters = feet * centimeterPerFoot;
+    return centimeters;
 }
 
+// returns a calorie count
 function getDietCal(userBMR) {
-  let dietCal;
-  if (userData.goal[0] === 'lose') {
-    dietCal = userBMR - 200;
-  } else if (userData.goal[0] === 'gain') {
-    dietCal = userBMR - 800;
-  } else {
-    dietCal = userBMR + 300;
-  }
-  return dietCal;
+    let dietCal;
+
+    if (userData.goal[0] === 'lose') {
+        dietCal = userBMR - 200;
+        return dietCal;
+    } else if (userData.goal[0] === 'gain') {
+        dietCal = userBMR - 800;
+        return dietCal;
+    } else {
+        dietCal = userBMR + 300;
+        return dietCal;
+    }
 }
 
+// calculates time it will take to achieve user's goal in units of months
 function calcGoalTime(deficit) {
-  if (userData.goal[0] === 'maintain') {
-    return 0;
-  } else {
-    const totalCal = 3500 * userData.goal[1];
-    const totalDays = totalCal / deficit;
-    const totalWeeks = totalDays / 7;
-    const totalMonths = totalWeeks / 4;
-    return totalMonths;
-  }
+    if (userData.goal[0] === 'maintain') {
+        return 0;
+    } else {
+        let totalCal = 3500 * userData.goal[1];
+        let totalDays = totalCal / deficit;
+        let totalWeeks = totalDays / 7;
+        let totalMonths = totalWeeks / 4;
+        return totalMonths;
+    }
 }
 
 function commitToStorage() {
-  localStorage.setItem('localUser', JSON.stringify(userData));
+    localStorage.setItem("localUser", JSON.stringify(userData));
 }
 
-goalButtons.forEach((item) => {
-  item.addEventListener('click', addGoalValue);
-});
+goalButtons.forEach(item => {
+    item.addEventListener('click', addGoalValue);
+})
 userFormEl.addEventListener('submit', updateUserObject);
 
-modalCloseButton.addEventListener('click', function () {
-  modalOverlay.classList.toggle('flex');
-  modalOverlay.classList.toggle('hidden');
-});
+modalCloseButton.addEventListener('click', function() {
+    modalOverlay.classList.toggle('flex')
+    modalOverlay.classList.toggle('hidden')
 
-modalContinueButton.onclick = function () {
-  location.href = 'mealForm.html';
-};
+})    
+modalContinueButton.onclick = function(){location.href = "mealForm.html"}
