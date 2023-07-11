@@ -1,26 +1,30 @@
+// Start button event listener
 document.getElementById("startBTN").addEventListener("click", function() {
-    location.href = "userForm.html"
+    location.href = "userForm.html";
 });
 
+// Find user and populate summary
 function findUser() {
-    let currentUser = 'localUser';
+    const currentUser = 'localUser';
+    const summaryPage = document.getElementById("summary-page");
+    const getStarted = document.getElementById("get-started");
 
     if (localStorage.getItem(currentUser)) {
-        document.getElementById("summary-page").classList.remove("hidden");
+        summaryPage.classList.remove("hidden");
         populateSummary(currentUser);
     } else {
-        document.getElementById("get-started").classList.remove("hidden");
+        getStarted.classList.remove("hidden");
     }
 }
 
 function populateSummary(user) {
-    let userInfo = JSON.parse(localStorage.getItem(user));
-    let retrievedUser = document.getElementById("retrieved-user");
-    let userGoal = document.getElementById("goal");
-    let userDietCal = document.getElementById("dietCal");
-    let userExerciseCal = document.getElementById("exerciseCal");
-    let userDeficit = document.getElementById("deficit");
-    let userGoalTime = document.getElementById("goalTime");
+    const userInfo = JSON.parse(localStorage.getItem(user));
+    const retrievedUser = document.getElementById("retrieved-user");
+    const userGoal = document.getElementById("goal");
+    const userDietCal = document.getElementById("dietCal");
+    const userExerciseCal = document.getElementById("exerciseCal");
+    const userDeficit = document.getElementById("deficit");
+    const userGoalTime = document.getElementById("goalTime");
 
     retrievedUser.textContent = userInfo.name;
     userGoal.textContent = userInfo.goal[0];
@@ -35,5 +39,8 @@ function updateUserInfo() {
     location.href = "userForm.html";
 }
 
+// DOMContentLoaded event listener
 document.addEventListener("DOMContentLoaded", findUser);
+
+// Update info button event listener
 document.getElementById("update-info").addEventListener("click", updateUserInfo);
