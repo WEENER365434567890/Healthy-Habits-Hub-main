@@ -1,162 +1,224 @@
-const restrictionBTN = document.querySelectorAll('input[name="restrictions"]');
-const restrictionList = document.getElementById("restrictions");
-const allergyBTN = document.querySelectorAll('input[name="allergies"]');
-const allergyList = document.getElementById("allergies");
+var restrictionBTN = document.querySelectorAll('input[name="restrictions"]');
+var restrictionList = document.getElementById("restrictions");
+var allergyBTN = document.querySelectorAll('input[name="allergies"]');
+var allergyList = document.getElementById("allergies");
 
-const mealSxn = document.getElementById("meal-suggestions");
-const mealVal = document.querySelector('input[id="meal-amt"]');
-const mealBtn = document.getElementById("mealBtn");
+var mealSxn = document.getElementById("meal-suggestions");
+var mealVal = document.querySelector('input[id = "meal-amt"]');
+var snackVal = document.querySelector('input[id = "snack-amt"]');
+var mealBtn = document.getElementById("mealBtn");
+var activityBtn = document.getElementById("activityNxBtn")
 
-const key = "876e9a6c95694284b7cb6107cd846ea5";
+var key = "876e9a6c95694284b7cb6107cd846ea5";
 
-// Restriction radio button click
+
+
+//restriction radio button click
 function restrictionDisplay() {
-  restrictionList.style.display = document.getElementById("yesR").checked ? "block" : "none";
+  if (document.getElementById("yesR").checked) {
+    restrictionList.style.display = "block";
+  } else {
+    restrictionList.style.display = "none";
+  }
 }
 
 restrictionBTN.forEach((radio) => {
   radio.addEventListener("click", restrictionDisplay);
 });
 
-// Allergy radio button click
+//allergy radio button click
 function allergyDisplay() {
-  allergyList.style.display = document.getElementById("yesA").checked ? "block" : "none";
+  if (document.getElementById("yesA").checked) {
+    allergyList.style.display = "block";
+  } else {
+    allergyList.style.display = "none";
+  }
 }
 
 allergyBTN.forEach((radio) => {
   radio.addEventListener("click", allergyDisplay);
 });
 
-// Meal display
+document.getElementById("activityNxBtn").onclick = function () {
+  location.href = "activityForm.html";
+};
+
 function mealDisplay() {
   if (mealVal.value <= 0) {
     document.getElementById("meal-amt").focus();
   } else {
     mealSxn.style.display = "flex";
+    activityBtn.style.display ="flex";
   }
 }
 
 mealBtn.addEventListener("click", mealDisplay);
 
-function getAllergies() {
-  const allergyParameters = Array.from(allergyList.querySelectorAll("input"))
-    .filter((checkbox) => checkbox.checked)
-    .map((checkbox) => checkbox.value)
-    .join(",");
 
-  return allergyParameters;
+function getAllergies() {
+  var allergyParameters = ""
+  var allergyChildren = allergyList.querySelectorAll("input")
+  for (var i = 0; i < allergyChildren.length; i++) {
+    var curElement = allergyChildren[i];
+    // console.log(curElement.value)
+    if (curElement.checked) {
+      // console.log(curElement.checked)
+      allergyParameters += curElement.value + ","
+      }
+    }
+  return allergyParameters
 }
 
 function getDiets() {
-  const dietParameters = Array.from(restrictionList.querySelectorAll("input"))
-    .filter((checkbox) => checkbox.checked)
-    .map((checkbox) => checkbox.value)
-    .join(",");
-
-  return dietParameters;
+  var dietParameters = ""
+  var dietChildren = restrictionList.querySelectorAll("input")
+  for (var i = 0; i < dietChildren.length; i++) {
+    var curElement = dietChildren[i];
+    // console.log(curElement.value)
+    if (curElement.checked) {
+      // console.log(curElement.checked)
+      dietParameters += curElement.value
+      console.log(dietParameters)
+      }
+    }
+  return dietParameters
 }
 
-function getCals() {
-  const userInfo = JSON.parse(localStorage.getItem("localUser"));
-  const dietCal = userInfo.dietCal;
-  const maxMealCal = Math.round(dietCal / mealVal.value);
 
-  return maxMealCal;
+function getCals(){
+  var userInfo = JSON.parse(localStorage.getItem("localUser"))
+  var dietCal = userInfo.dietCal
+  var maxMealCal = (Math.round(dietCal/mealVal.value))
+
+  return maxMealCal
 }
 
-function randomMeal() {
-  return Math.floor(Math.random() * 10) + 1;
+function randomMeal(){
+  var random = Math.floor(Math.random() * 10)+1
+
+  return random;
 }
+
 
 function renderMeals(data) {
-  const suggestionBox = document.getElementById("meal-suggestions");
+  // console.log(data.results[0].title)
+  var suggestionBox = document.getElementById("meal-suggestions")
+  var mealContainer = document.getElementById('meal-container');
   suggestionBox.innerHTML = "";
 
-  const limit = mealVal.value < 7 ? mealVal.value : 6;
-  for (let i = 0; i < limit; i++) {
-    const recipe = data.results[i];
+  if (mealVal.value < 7) {
+    for (var i = 0; i < mealVal.value; i++) {
+      var recipe = data.results[i];
+      //Create main div for all meal suggestions styling
+      var div = document.createElement("div");
+      div.classList.add("w-full", 'lg:w-1/3', "h-48", "shadow-lg", "flex", "p-4")
+      suggestionBox.appendChild(div);
 
-    const div = document.createElement("div");
-    div.classList.add("w-full", "h-48", "shadow-lg", "flex", "p-4");
-    suggestionBox.appendChild(div);
 
-    const divImg = document.createElement("div");
-    divImg.classList.add("w-1/3", "h-48");
-    div.appendChild(divImg);
+      // Create two div boxes for styling the images and text seperately
+      var divImg = document.createElement("div");
+      divImg.classList.add("w-1/3", "h-48",)
+      div.appendChild(divImg)
+      var divContent = document.createElement("div");
+      divContent.classList.add("w-2/3", "h-48",)
+      div.appendChild(divContent)
 
-    const divContent = document.createElement("div");
-    divContent.classList.add("w-2/3", "h-48");
-    div.appendChild(divContent);
 
-    const img = document.createElement("img");
-    const h1 = document.createElement("h1");
-    const p = document.createElement("p");
 
-    h1.textContent = recipe.title;
-    p.textContent = "Calories: " + data.results[i].nutrition.nutrients[0].amount + " kcal";
-    img.src = recipe.image;
+      //create specific elements for img div and content div respectivly
+      var img = document.createElement("img");
+      var h1 = document.createElement("h1");
+      var p = document.createElement("p");
 
-    img.classList.add("w-36", "h-36", "rounded-lg");
-    h1.classList.add("pl-4", "pt-4", "text-lg", "font-bold", "header-font");
-    p.classList.add("pl-4", "pt-4", "body-font");
+      // assign pieces of content values
+      h1.textContent = recipe.title;
+      p.textContent = "Calories: " + data.results[i].nutrition.nutrients[0].amount + " kcal"
+      img.src = recipe.image
 
-    divImg.appendChild(img);
-    divContent.appendChild(h1);
-    divContent.appendChild(p);
+
+      img.classList.add("w-36", "h-36", "rounded-lg")
+      h1.classList.add("pl-4","pt-4", "text-lg", "font-bold", "header-font")
+      p.classList.add("pl-4","pt-4", "body-font")
+
+      divImg.appendChild(img);
+      divContent.appendChild(h1);
+      divContent.appendChild(p);
+    }
+  } else {
+    for (var i = 0; i < 6; i++) {
+      var recipe = data.results[i];
+      //Create main div for all meal suggestions styling
+      var div = document.createElement("div");
+      div.classList.add("w-full", "h-48", "shadow-lg", "flex", "p-4")
+      suggestionBox.appendChild(div);
+
+
+      // Create two div boxes for styling the images and text seperately
+      var divImg = document.createElement("div");
+      divImg.classList.add("w-1/3", "h-48",)
+      div.appendChild(divImg)
+      var divContent = document.createElement("div");
+      divContent.classList.add("w-2/3", "h-48",)
+      div.appendChild(divContent)
+
+
+
+      //create specific elements for img div and content div respectivly
+      var img = document.createElement("img");
+      var h1 = document.createElement("h1");
+      var p = document.createElement("p");
+
+      // assign pieces of content values
+      h1.textContent = recipe.title;
+      p.textContent = "Calories: " + data.results[i].nutrition.nutrients[0].amount + " kcal"
+      img.src = recipe.image
+
+
+      img.classList.add("w-36", "h-36", "rounded-lg")
+      h1.classList.add("pl-4","pt-4", "text-lg", "font-bold", "header-font")
+      p.classList.add("pl-4","pt-4", "body-font")
+
+      divImg.appendChild(img);
+      divContent.appendChild(h1);
+      divContent.appendChild(p);
+    }
   }
 }
 
-function mealSearch() {
-  const allergies = getAllergies();
-  const diets = getDiets();
-  const cals = getCals();
-  const random = randomMeal();
 
-  const queryURL =
-    "https://api.spoonacular.com/recipes/complexSearch?apiKey=" +
-    key +
-    "&intolerances=" +
-    allergies +
-    "&diet=" +
-    diets +
-    "&maxCalories=" +
-    cals +
-    "&offset=" +
-    random;
+function mealSearch(getAllergies, getDiets, getCals, randomMeal) {
+  $("#meal-suggestions").empty();
 
-  fetch(queryURL, {
-    headers: { "Content-Type": "application/json" },
-  })
-    .then(function (response) {
-      return response.json();
+
+  var queryURL =
+    "https://api.spoonacular.com/recipes/complexSearch?apiKey=" + key + "&intolerances=" + getAllergies + "&diet=" + getDiets + "&maxCalories=" + getCals +"&offset=" + randomMeal;
+  {
+    fetch(queryURL, {
+      headers: { "Content-Type": "application/json" },
     })
-    .then(function (data) {
-      renderMeals(data);
-    });
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (data) {
+        console.log(data);
+        renderMeals(data)
+      });
+  }
 }
 
-// Meal button click handler
+//meal handler, add in parameters/arguments for narrowing the search
 function submitMealHandler() {
-  if (!localStorage.getItem("localUser")) {
+  if (!localStorage.getItem('localUser')) {
     displayModalMeal();
   } else {
-    mealSearch();
+    mealSearch(getAllergies(), getDiets(), getCals(), randomMeal())
   }
 }
 
 function displayModalMeal() {
-  const mealModalOverlay = document.getElementById("mealModalOverlay");
-  mealModalOverlay.classList.toggle("hidden");
-  mealModalOverlay.classList.toggle("flex");
+  document.getElementById('mealModalOverlay').classList.toggle('hidden');
+  document.getElementById('mealModalOverlay').classList.toggle('flex');
 }
 
-// Event listeners
-document.getElementById("activityNxBtn").addEventListener("click", function () {
-  location.href = "activityForm.html";
-});
-
-document.getElementById("modalOkButton").onclick = function () {
-  location.href = "userForm.html";
-};
-
+document.getElementById('modalOkButton').onclick = function(){location.href = "userForm.html"}
 mealBtn.addEventListener("click", submitMealHandler);
