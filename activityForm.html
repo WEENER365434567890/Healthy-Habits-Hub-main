@@ -4,13 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Healthy Habits Hub</title>
-    <link rel="stylesheet" href="./assets/css/reset.css" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="./assets/css/reset.css">
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css"
+      rel="stylesheet"
+    />
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400&family=Quicksand&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="./assets/css/styles.css" />
+    <title>Healthy Habits Hub</title>
   </head>
   <body>
     <div id="mySidenav" class="sidenav header-font z-40">
@@ -33,16 +36,16 @@
       </nav>
     </header>
     <main class="w-full h-full">
-      <div class="container my-5 mx-auto flex justify-center items-center body-font flex-col">
+      <div class="w-full h-full container my-5 mx-auto flex justify-center items-center body-font flex-col">
         <form id="activity-form" class="rounded my-auto w-10/12 h-10/12 z-20 shadow-xl custom-container">
           <div class="text-center mx-auto h-2/12 w-full py-5 header-font text-4xl">
             <h1>Activities</h1>
           </div>
           <div class="text-center mx-auto h-8/12 w-full max-w-xs py-10 text-2xl md:text-2xl lg:text-3xl leading-relaxed">
-            <label for="ex-choice" class="block">Exercise:</label>
+            <label class="block" for="exerciseSearch">Exercise:</label>
             <input id="ex-choice" class="input-border rounded" type="text" placeholder="Ex. Run" required />
             <br><br>
-            <label for="slider" class="block">Time:</label>
+            <label class="block" for="exerciseSearch">Time:</label>
             <div id="slider" class="my-4">
               <div id="custom-handle" class="block ui-slider-handle"></div>
             </div>
