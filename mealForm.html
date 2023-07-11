@@ -4,27 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="stylesheet" href="./assets/css/reset.css">
-    <link
-      href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400&family=Quicksand&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="./assets/css/styles.css" />
     <title>Meal Planning</title>
+    <link rel="stylesheet" href="./assets/css/reset.css" />
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400&family=Quicksand&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./assets/css/styles.css" />
   </head>
   <body>
     <div id="mySidenav" class="sidenav header-font z-40">
-      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"
-        >&times;</a
-      >
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
       <a href="./index.html">Home</a>
       <a href="./userForm.html">My Info</a>
       <a href="./mealForm.html">Meal Planning</a>
@@ -34,14 +23,10 @@
       <nav class="shadow-lg h-16 header-font">
         <div class="flex justify-between ml-12 mr-12 h-full">
           <div class="flex items-center">
-            <span style="font-size: 30px; cursor: pointer" onclick="openNav()"
-              >&#9776;</span
-            >
+            <span style="font-size: 30px; cursor: pointer" onclick="openNav()">&#9776;</span>
           </div>
           <div class="flex items-center">
-            <a href="./index.html" class="font-semibold text-lg"
-              >Healthy Habits Hub</a
-            >
+            <a href="./index.html" class="font-semibold text-lg">Healthy Habits Hub</a>
           </div>
         </div>
       </nav>
@@ -64,89 +49,89 @@
       <div id="meal-container" class="w-full h-full container my-5 mx-auto flex justify-center items-center body-font flex-col">
         <form id="meal-input" class="rounded my-auto w-10/12 h-10/12 z-20 shadow-xl custom-container">
           <div class="text-center mx-auto h-2/12 w-full py-5 header-font text-4xl">
-            <h1 id="meal-title"> Meal Planning</h1>
+            <h1 id="meal-title">Meal Planning</h1>
           </div>
           <div class="text-center mx-auto h-8/12 w-full py-10 text-2xl md:text-2xl lg:text-3xl leading-relaxed">
             <div>
               <!-- Special Diet Restrictions? -->
               <label for="restrictions" class="block">Special Diet Restrictions?</label>
-              <input type="radio" id="yesR" name="restrictions" value="show"/>
-              <label for="show">Yes</label>
+              <input type="radio" id="yesR" name="restrictions" value="show" />
+              <label for="yesR">Yes</label>
               <input type="radio" id="noR" name="restrictions" value="hide" />
-              <label for="hide">No</label>
-              <br>
+              <label for="noR">No</label>
+              <br />
               <div id="restrictions" class="mt-4 flex-col text-lg md:text-lg lg:text-xl leading-relaxed">
-                <input type="radio" id="gluten Free" name="restriction" value="gluten Free"/>
+                <input type="radio" id="gluten Free" name="restriction" value="gluten Free" />
                 <label for="gluten Free">Gluten Free</label>
-                <input type="radio" id="ketogenic" name="restriction" value="ketogenic"/>
+                <input type="radio" id="ketogenic" name="restriction" value="ketogenic" />
                 <label for="ketogenic">Ketogenic</label>
-                <br/>
-                <input type="radio" id="vegetarian" name="restriction" value="vegetarian"/>
+                <br />
+                <input type="radio" id="vegetarian" name="restriction" value="vegetarian" />
                 <label for="vegetarian">Vegetarian</label>
-                <input type="radio" id="lacto-vegetarian" name="restriction" value="lacto-vegetarian"/>
+                <input type="radio" id="lacto-vegetarian" name="restriction" value="lacto-vegetarian" />
                 <label for="lacto-vegetarian">Lacto-Vegetarian</label>
-                <br/>
-                <input type="radio" id="ovo-vegetarian" name="restriction" value="ovo-vegetarian"/>
+                <br />
+                <input type="radio" id="ovo-vegetarian" name="restriction" value="ovo-vegetarian" />
                 <label for="ovo-vegetarian">Ovo-Vegetarian</label>
-                <input type="radio" id="vegan" name="restriction" value="vegan"/>
+                <input type="radio" id="vegan" name="restriction" value="vegan" />
                 <label for="vegan">Vegan</label>
-                <br/>
-                <input type="radio" id="pescetarian" name="restriction" value="pescetarian"/>
+                <br />
+                <input type="radio" id="pescetarian" name="restriction" value="pescetarian" />
                 <label for="pescetarian">Pescatarian</label>
-                <input type="radio" id="paleao" name="restriction" value="paleao"/>
+                <input type="radio" id="paleao" name="restriction" value="paleao" />
                 <label for="paleao">Paleo</label>
-                <input type="radio" id="primal" name="restriction" value="primal"/>
+                <input type="radio" id="primal" name="restriction" value="primal" />
                 <label for="primal">Primal</label>
-                <br/>
-                <input type="radio" id="whole30" name="restriction" value="whole30"/>
+                <br />
+                <input type="radio" id="whole30" name="restriction" value="whole30" />
                 <label for="whole30">Whole30</label>
               </div>
             </div>
-            <br>
+            <br />
             <div>
               <!-- Food Allergies and Intolerances? -->
               <label for="intolerance" class="block">Food Allergies/Intolerances?</label>
               <input type="radio" id="yesA" name="allergies" value="show" />
-              <label for="show">Yes</label>
+              <label for="yesA">Yes</label>
               <input type="radio" id="noA" name="allergies" value="hide" />
-              <label for="hide">No</label>
-              <br>
+              <label for="noA">No</label>
+              <br />
               <div id="allergies" class="mt-4 flex-col text-lg md:text-lg lg:text-xl leading-relaxed">
-                <input type="checkbox" id="Dairy" name="intolerance" value="Dairy"/>
+                <input type="checkbox" id="Dairy" name="intolerance" value="Dairy" />
                 <label for="Dairy">Dairy</label>
-                <input type="checkbox" id="Egg" name="intolerance" value="Egg"/>
+                <input type="checkbox" id="Egg" name="intolerance" value="Egg" />
                 <label for="Egg">Egg</label>
-                <input type="checkbox" id="Gluten" name="intolerance" value="Gluten"/>
+                <input type="checkbox" id="Gluten" name="intolerance" value="Gluten" />
                 <label for="Gluten">Gluten</label>
-                <input type="checkbox" id="Grain" name="intolerance" value="Grain"/>
+                <input type="checkbox" id="Grain" name="intolerance" value="Grain" />
                 <label for="Grain">Grain</label>
-                <br/>
-                <input type="checkbox" id="Peanut" name="intolerance5" value="Peanut"/>
+                <br />
+                <input type="checkbox" id="Peanut" name="intolerance5" value="Peanut" />
                 <label for="Peanut">Peanut</label>
-                <input type="checkbox" id="Seafood" name="intolerance" value="Seafood"/>
+                <input type="checkbox" id="Seafood" name="intolerance" value="Seafood" />
                 <label for="Seafood">Seafood</label>
-                <input type="checkbox" id="Sesame" name="intolerance" value="Sesame"/>
+                <input type="checkbox" id="Sesame" name="intolerance" value="Sesame" />
                 <label for="Sesame">Sesame</label>
-                <br/>
-                <input type="checkbox" id="Shellfish" name="intolerance" value="Shellfish"/>
+                <br />
+                <input type="checkbox" id="Shellfish" name="intolerance" value="Shellfish" />
                 <label for="Shellfish">Shellfish</label>
-                <input type="checkbox" id="Soy" name="intolerance" value="Soy"/>
+                <input type="checkbox" id="Soy" name="intolerance" value="Soy" />
                 <label for="Soy">Soy</label>
-                <input type="checkbox" id="Sulfite" name="intolerance" value="Sulfite"/>
+                <input type="checkbox" id="Sulfite" name="intolerance" value="Sulfite" />
                 <label for="Sulfite">Sulfite</label>
-                <br/>
-                <input type="checkbox" id="Tree Nut" name="intolerance" value="Tree Nut"/>
+                <br />
+                <input type="checkbox" id="Tree Nut" name="intolerance" value="Tree Nut" />
                 <label for="Tree Nut">Tree Nut</label>
-                <input type="checkbox" id="Wheat" name="intolerance" value="Wheat"/>
+                <input type="checkbox" id="Wheat" name="intolerance" value="Wheat" />
                 <label for="Wheat">Wheat</label>
               </div>
-              <br>
+              <br />
             </div>
             <div>
               <!-- Meals per day? -->
               <label class="block" for="Meals">Meals Per Day ?</label>
-              <input type="number" min = "0" class="input-border rounded" id="meal-amt" />
-              <label for="default-range" class="block text-gray-500 text-sm font-bold mb-1 p-0">Input must be 1-6</label>
+              <input type="number" min="1" max="6" class="input-border rounded" id="meal-amt" />
+              <label for="meal-amt" class="block text-gray-500 text-sm font-bold mb-1 p-0">Input must be 1-6</label>
             </div>
           </div>
           <div class="h-2/12 w-full mx-auto flex justify-center items-center py-5 section-footer">
