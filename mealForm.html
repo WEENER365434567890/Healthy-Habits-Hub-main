@@ -1,152 +1,224 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Meal Planning</title>
-    <link rel="stylesheet" href="./assets/css/reset.css" />
-    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400&family=Quicksand&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="./assets/css/styles.css" />
-  </head>
-  <body>
-    <div id="mySidenav" class="sidenav header-font z-40">
-      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-      <a href="./index.html">Home</a>
-      <a href="./userForm.html">My Info</a>
-      <a href="./mealForm.html">Meal Planning</a>
-      <a href="./activityForm.html">Activities</a>
-    </div>
-    <header class="custom-header z-30 w-full">
-      <nav class="shadow-lg h-16 header-font">
-        <div class="flex justify-between ml-12 mr-12 h-full">
-          <div class="flex items-center">
-            <span style="font-size: 30px; cursor: pointer" onclick="openNav()">&#9776;</span>
-          </div>
-          <div class="flex items-center">
-            <a href="./index.html" class="font-semibold text-lg">Healthy Habits Hub</a>
-          </div>
-        </div>
-      </nav>
-    </header>
-    <main id="meal-form" class="w-full h-full">
-      <!-- modal -->
-      <div class="inset-0 w-full h-full z-40 bg-black bg-opacity-50 fixed hidden justify-center items-center body-font" id="mealModalOverlay">
-        <div class="custom-modal max-w-sm rounded px-3 py-3 shadow-xl">
-          <div class="text-center mx-auto text-xl font-bold header-font">
-            <h3>Looks like you skipped a step!</h3>
-          </div>
-          <div class="my-4 text-gray-900">
-            <p>Before we can generate a suggested meal plan, we need to calculate your BMR. Click Ok to head to the appropriate page.</p>
-          </div>
-          <div class="mt-4 flex justify-center space-x-12">
-            <button class="px-3 py-1 rounded" id="modalOkButton">Ok</button>
-          </div>
-        </div>
-      </div>
-      <div id="meal-container" class="w-full h-full container my-5 mx-auto flex justify-center items-center body-font flex-col">
-        <form id="meal-input" class="rounded my-auto w-10/12 h-10/12 z-20 shadow-xl custom-container">
-          <div class="text-center mx-auto h-2/12 w-full py-5 header-font text-4xl">
-            <h1 id="meal-title">Meal Planning</h1>
-          </div>
-          <div class="text-center mx-auto h-8/12 w-full py-10 text-2xl md:text-2xl lg:text-3xl leading-relaxed">
-            <div>
-              <!-- Special Diet Restrictions? -->
-              <label for="restrictions" class="block">Special Diet Restrictions?</label>
-              <input type="radio" id="yesR" name="restrictions" value="show" />
-              <label for="yesR">Yes</label>
-              <input type="radio" id="noR" name="restrictions" value="hide" />
-              <label for="noR">No</label>
-              <br />
-              <div id="restrictions" class="mt-4 flex-col text-lg md:text-lg lg:text-xl leading-relaxed">
-                <input type="radio" id="gluten Free" name="restriction" value="gluten Free" />
-                <label for="gluten Free">Gluten Free</label>
-                <input type="radio" id="ketogenic" name="restriction" value="ketogenic" />
-                <label for="ketogenic">Ketogenic</label>
-                <br />
-                <input type="radio" id="vegetarian" name="restriction" value="vegetarian" />
-                <label for="vegetarian">Vegetarian</label>
-                <input type="radio" id="lacto-vegetarian" name="restriction" value="lacto-vegetarian" />
-                <label for="lacto-vegetarian">Lacto-Vegetarian</label>
-                <br />
-                <input type="radio" id="ovo-vegetarian" name="restriction" value="ovo-vegetarian" />
-                <label for="ovo-vegetarian">Ovo-Vegetarian</label>
-                <input type="radio" id="vegan" name="restriction" value="vegan" />
-                <label for="vegan">Vegan</label>
-                <br />
-                <input type="radio" id="pescetarian" name="restriction" value="pescetarian" />
-                <label for="pescetarian">Pescatarian</label>
-                <input type="radio" id="paleao" name="restriction" value="paleao" />
-                <label for="paleao">Paleo</label>
-                <input type="radio" id="primal" name="restriction" value="primal" />
-                <label for="primal">Primal</label>
-                <br />
-                <input type="radio" id="whole30" name="restriction" value="whole30" />
-                <label for="whole30">Whole30</label>
-              </div>
-            </div>
-            <br />
-            <div>
-              <!-- Food Allergies and Intolerances? -->
-              <label for="intolerance" class="block">Food Allergies/Intolerances?</label>
-              <input type="radio" id="yesA" name="allergies" value="show" />
-              <label for="yesA">Yes</label>
-              <input type="radio" id="noA" name="allergies" value="hide" />
-              <label for="noA">No</label>
-              <br />
-              <div id="allergies" class="mt-4 flex-col text-lg md:text-lg lg:text-xl leading-relaxed">
-                <input type="checkbox" id="Dairy" name="intolerance" value="Dairy" />
-                <label for="Dairy">Dairy</label>
-                <input type="checkbox" id="Egg" name="intolerance" value="Egg" />
-                <label for="Egg">Egg</label>
-                <input type="checkbox" id="Gluten" name="intolerance" value="Gluten" />
-                <label for="Gluten">Gluten</label>
-                <input type="checkbox" id="Grain" name="intolerance" value="Grain" />
-                <label for="Grain">Grain</label>
-                <br />
-                <input type="checkbox" id="Peanut" name="intolerance5" value="Peanut" />
-                <label for="Peanut">Peanut</label>
-                <input type="checkbox" id="Seafood" name="intolerance" value="Seafood" />
-                <label for="Seafood">Seafood</label>
-                <input type="checkbox" id="Sesame" name="intolerance" value="Sesame" />
-                <label for="Sesame">Sesame</label>
-                <br />
-                <input type="checkbox" id="Shellfish" name="intolerance" value="Shellfish" />
-                <label for="Shellfish">Shellfish</label>
-                <input type="checkbox" id="Soy" name="intolerance" value="Soy" />
-                <label for="Soy">Soy</label>
-                <input type="checkbox" id="Sulfite" name="intolerance" value="Sulfite" />
-                <label for="Sulfite">Sulfite</label>
-                <br />
-                <input type="checkbox" id="Tree Nut" name="intolerance" value="Tree Nut" />
-                <label for="Tree Nut">Tree Nut</label>
-                <input type="checkbox" id="Wheat" name="intolerance" value="Wheat" />
-                <label for="Wheat">Wheat</label>
-              </div>
-              <br />
-            </div>
-            <div>
-              <!-- Meals per day? -->
-              <label class="block" for="Meals">Meals Per Day ?</label>
-              <input type="number" min="1" max="6" class="input-border rounded" id="meal-amt" />
-              <label for="meal-amt" class="block text-gray-500 text-sm font-bold mb-1 p-0">Input must be 1-6</label>
-            </div>
-          </div>
-          <div class="h-2/12 w-full mx-auto flex justify-center items-center py-5 section-footer">
-            <button id="mealBtn" class="font-bold py-2 px-20 rounded focus:outline-none focus:shadow-outline" type="button">Get Meals</button>
-          </div>
-        </form>
-        <div class="mt-10 flex flex-wrap w-full lg:w-10/12 h-10/12 shadow-xl custom-container rounded" id="meal-suggestions"></div>
-        <div class="h-2/12 w-12/12 mx-auto flex justify-center items-center py-5">
-          <button id="activityNxBtn" class="font-bold py-2 px-20 rounded focus:outline-none focus:shadow-outline" type="button">Next Step</button>
-        </div>
-      </div>
-    </main>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <script src="./assets/js/script.js"></script>
-    <script src="./assets/js/mealForm.js"></script>
-  </body>
-</html>
+var restrictionBTN = document.querySelectorAll('input[name="restrictions"]');
+var restrictionList = document.getElementById("restrictions");
+var allergyBTN = document.querySelectorAll('input[name="allergies"]');
+var allergyList = document.getElementById("allergies");
+
+var mealSxn = document.getElementById("meal-suggestions");
+var mealVal = document.querySelector('input[id = "meal-amt"]');
+var snackVal = document.querySelector('input[id = "snack-amt"]');
+var mealBtn = document.getElementById("mealBtn");
+var activityBtn = document.getElementById("activityNxBtn")
+
+var key = "876e9a6c95694284b7cb6107cd846ea5";
+
+
+
+//restriction radio button click
+function restrictionDisplay() {
+  if (document.getElementById("yesR").checked) {
+    restrictionList.style.display = "block";
+  } else {
+    restrictionList.style.display = "none";
+  }
+}
+
+restrictionBTN.forEach((radio) => {
+  radio.addEventListener("click", restrictionDisplay);
+});
+
+//allergy radio button click
+function allergyDisplay() {
+  if (document.getElementById("yesA").checked) {
+    allergyList.style.display = "block";
+  } else {
+    allergyList.style.display = "none";
+  }
+}
+
+allergyBTN.forEach((radio) => {
+  radio.addEventListener("click", allergyDisplay);
+});
+
+document.getElementById("activityNxBtn").onclick = function () {
+  location.href = "activityForm.html";
+};
+
+function mealDisplay() {
+  if (mealVal.value <= 0) {
+    document.getElementById("meal-amt").focus();
+  } else {
+    mealSxn.style.display = "flex";
+    activityBtn.style.display ="flex";
+  }
+}
+
+mealBtn.addEventListener("click", mealDisplay);
+
+
+function getAllergies() {
+  var allergyParameters = ""
+  var allergyChildren = allergyList.querySelectorAll("input")
+  for (var i = 0; i < allergyChildren.length; i++) {
+    var curElement = allergyChildren[i];
+    // console.log(curElement.value)
+    if (curElement.checked) {
+      // console.log(curElement.checked)
+      allergyParameters += curElement.value + ","
+      }
+    }
+  return allergyParameters
+}
+
+function getDiets() {
+  var dietParameters = ""
+  var dietChildren = restrictionList.querySelectorAll("input")
+  for (var i = 0; i < dietChildren.length; i++) {
+    var curElement = dietChildren[i];
+    // console.log(curElement.value)
+    if (curElement.checked) {
+      // console.log(curElement.checked)
+      dietParameters += curElement.value
+      console.log(dietParameters)
+      }
+    }
+  return dietParameters
+}
+
+
+function getCals(){
+  var userInfo = JSON.parse(localStorage.getItem("localUser"))
+  var dietCal = userInfo.dietCal
+  var maxMealCal = (Math.round(dietCal/mealVal.value))
+
+  return maxMealCal
+}
+
+function randomMeal(){
+  var random = Math.floor(Math.random() * 10)+1
+
+  return random;
+}
+
+
+function renderMeals(data) {
+  // console.log(data.results[0].title)
+  var suggestionBox = document.getElementById("meal-suggestions")
+  var mealContainer = document.getElementById('meal-container');
+  suggestionBox.innerHTML = "";
+
+  if (mealVal.value < 7) {
+    for (var i = 0; i < mealVal.value; i++) {
+      var recipe = data.results[i];
+      //Create main div for all meal suggestions styling
+      var div = document.createElement("div");
+      div.classList.add("w-full", 'lg:w-1/3', "h-48", "shadow-lg", "flex", "p-4")
+      suggestionBox.appendChild(div);
+
+
+      // Create two div boxes for styling the images and text seperately
+      var divImg = document.createElement("div");
+      divImg.classList.add("w-1/3", "h-48",)
+      div.appendChild(divImg)
+      var divContent = document.createElement("div");
+      divContent.classList.add("w-2/3", "h-48",)
+      div.appendChild(divContent)
+
+
+
+      //create specific elements for img div and content div respectivly
+      var img = document.createElement("img");
+      var h1 = document.createElement("h1");
+      var p = document.createElement("p");
+
+      // assign pieces of content values
+      h1.textContent = recipe.title;
+      p.textContent = "Calories: " + data.results[i].nutrition.nutrients[0].amount + " kcal"
+      img.src = recipe.image
+
+
+      img.classList.add("w-36", "h-36", "rounded-lg")
+      h1.classList.add("pl-4","pt-4", "text-lg", "font-bold", "header-font")
+      p.classList.add("pl-4","pt-4", "body-font")
+
+      divImg.appendChild(img);
+      divContent.appendChild(h1);
+      divContent.appendChild(p);
+    }
+  } else {
+    for (var i = 0; i < 6; i++) {
+      var recipe = data.results[i];
+      //Create main div for all meal suggestions styling
+      var div = document.createElement("div");
+      div.classList.add("w-full", "h-48", "shadow-lg", "flex", "p-4")
+      suggestionBox.appendChild(div);
+
+
+      // Create two div boxes for styling the images and text seperately
+      var divImg = document.createElement("div");
+      divImg.classList.add("w-1/3", "h-48",)
+      div.appendChild(divImg)
+      var divContent = document.createElement("div");
+      divContent.classList.add("w-2/3", "h-48",)
+      div.appendChild(divContent)
+
+
+
+      //create specific elements for img div and content div respectivly
+      var img = document.createElement("img");
+      var h1 = document.createElement("h1");
+      var p = document.createElement("p");
+
+      // assign pieces of content values
+      h1.textContent = recipe.title;
+      p.textContent = "Calories: " + data.results[i].nutrition.nutrients[0].amount + " kcal"
+      img.src = recipe.image
+
+
+      img.classList.add("w-36", "h-36", "rounded-lg")
+      h1.classList.add("pl-4","pt-4", "text-lg", "font-bold", "header-font")
+      p.classList.add("pl-4","pt-4", "body-font")
+
+      divImg.appendChild(img);
+      divContent.appendChild(h1);
+      divContent.appendChild(p);
+    }
+  }
+}
+
+
+function mealSearch(getAllergies, getDiets, getCals, randomMeal) {
+  $("#meal-suggestions").empty();
+
+
+  var queryURL =
+    "https://api.spoonacular.com/recipes/complexSearch?apiKey=" + key + "&intolerances=" + getAllergies + "&diet=" + getDiets + "&maxCalories=" + getCals +"&offset=" + randomMeal;
+  {
+    fetch(queryURL, {
+      headers: { "Content-Type": "application/json" },
+    })
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (data) {
+        console.log(data);
+        renderMeals(data)
+      });
+  }
+}
+
+//meal handler, add in parameters/arguments for narrowing the search
+function submitMealHandler() {
+  if (!localStorage.getItem('localUser')) {
+    displayModalMeal();
+  } else {
+    mealSearch(getAllergies(), getDiets(), getCals(), randomMeal())
+  }
+}
+
+function displayModalMeal() {
+  document.getElementById('mealModalOverlay').classList.toggle('hidden');
+  document.getElementById('mealModalOverlay').classList.toggle('flex');
+}
+
+document.getElementById('modalOkButton').onclick = function(){location.href = "userForm.html"}
+mealBtn.addEventListener("click", submitMealHandler);
